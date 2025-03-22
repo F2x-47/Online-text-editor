@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Éditeur de Texte Minimaliste</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+        }
+
+        #toolbar {
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            background: #ddd;
+            width: 100%;
+            justify-content: center;
+        }
+
+        button, select, input[type="color"] {
+            padding: 5px;
+        }
+
+        #editor {
+            width: 80%;
+            height: 60vh;
+            border: 1px solid #ccc;
+            padding: 10px;
+            overflow-y: auto;
+            background: white;
+        }
+
+        #stats {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="toolbar">
+        <button onclick="format('bold')">Gras</button>
+        <button onclick="format('italic')">Italique</button>
+        <button onclick="format('underline')">Souligné</button>
+        <select onchange="format('fontSize', this.value)">
+            <option value="3">Taille</option>
+            <option value="1">Petit</option>
+            <option value="3">Moyen</option>
+            <option value="5">Grand</option>
+        </select>
+        <input type="color" onchange="format('foreColor', this.value)">
+        <select onchange="format('fontName', this.value)">
+            <option value="Arial">Police</option>
+            <option value="Arial">Arial</option>
+            <option value="Courier New">Courier New</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Verdana">Verdana</option>
+        </select>
+        <button onclick="toggleFullScreen()">Plein écran</button>
+        <button onclick="downloadTxt()">Télécharger</button>
+        <button onclick="toggleTheme()">Thème</button>
+    </div>
+
+    <div id="editor" contenteditable="true"></div>
+
+    <div id="stats">Mots : 0 | Caractères : 0 | Lignes : 0</div>
+
+    <script>
+        const editor = document.getElementById('editor');
+        const stats = document.getElementById('stats');
+        let darkMode = false;
+
+        editor.addEventListener('input', updateStats);
+
+        function format(command, value = null) {
+            document.execCommand(command, false, value);
+            editor.focus();
+        }
+
+        function updateStats() {
+            const text = editor.innerText;
+            const words = text.trim().split(/\s+/).filter(Boolean).length;
+            const chars = text.length;
+            const lines = text.split(/\n/).length;
+            stats.textContent = `Mots : ${words} | Caractères : ${chars} | Lignes : ${lines}`;
+        }
+
+        function downloadTxt() {
+            const text = editor.innerText;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'texte.txt';
+            link.click();
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        function toggleTheme() {
+            darkMode = !darkMode;
+            document.body.style.backgroundColor = darkMode ? '#333' : '#f4f4f4';
+            document.body.style.color = darkMode ? '#f4f4f4' : '#000';
+            editor.style.backgroundColor = darkMode ? '#555' : '#fff';
+            editor.style.color = darkMode ? '#f4f4f4' : '#000';
+        }
+    </script>
+</body>
+</html>
