@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Éditeur de Texte Minimaliste</title>
+    <title>Online texte editor</title>
     <style>
         body {
             margin: 0;
@@ -46,31 +46,31 @@
 </head>
 <body>
     <div id="toolbar">
-        <button onclick="format('bold')">Gras</button>
-        <button onclick="format('italic')">Italique</button>
-        <button onclick="format('underline')">Souligné</button>
+        <button onclick="format('bold')">Bold</button>
+        <button onclick="format('italic')">Italic</button>
+        <button onclick="format('underline')">Underline</button>
         <select onchange="format('fontSize', this.value)">
-            <option value="3">Taille</option>
-            <option value="1">Petit</option>
-            <option value="3">Moyen</option>
-            <option value="5">Grand</option>
+            <option value="3">Size</option>
+            <option value="1">Small</option>
+            <option value="3">Medium</option>
+            <option value="5">Big</option>
         </select>
         <input type="color" onchange="format('foreColor', this.value)">
         <select onchange="format('fontName', this.value)">
-            <option value="Arial">Police</option>
+            <option value="Arial">Font</option>
             <option value="Arial">Arial</option>
             <option value="Courier New">Courier New</option>
             <option value="Times New Roman">Times New Roman</option>
             <option value="Verdana">Verdana</option>
         </select>
-        <button onclick="toggleFullScreen()">Plein écran</button>
-        <button onclick="downloadTxt()">Télécharger</button>
-        <button onclick="toggleTheme()">Thème</button>
+        <button onclick="toggleFullScreen()">Full screenn</button>
+        <button onclick="downloadTxt()">Download</button>
+        <button onclick="toggleTheme()">Theme</button>
     </div>
 
     <div id="editor" contenteditable="true"></div>
 
-    <div id="stats">Mots : 0 | Caractères : 0 | Lignes : 0</div>
+    <div id="stats">Words : 0 | Caracters : 0 | Lines : 0</div>
 
     <script>
         const editor = document.getElementById('editor');
@@ -89,7 +89,7 @@
             const words = text.trim().split(/\s+/).filter(Boolean).length;
             const chars = text.length;
             const lines = text.split(/\n/).length;
-            stats.textContent = `Mots : ${words} | Caractères : ${chars} | Lignes : ${lines}`;
+            stats.textContent = `Words : ${words} | Caracters : ${chars} | Lines : ${lines}`;
         }
 
         function downloadTxt() {
